@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface AccountService {
 
-    UserInfo findUser(int id);
 
     List<UserInfo> findUserList();
 
@@ -14,5 +13,5 @@ public interface AccountService {
 
     boolean isRightPassword(UserInfo userInfo);
 
-    boolean isExitAccount(UserInfo userInfo);
+    boolean isExitUser(UserInfo userInfo);
 }

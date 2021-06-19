@@ -23,14 +23,14 @@ public class AccountServiceImpl implements AccountService {
         result.setSuccess(false);
         result.setUser(null);
 
-        if(!isExitAccount(userInfo)){
+        if(!isExitAccount(userInfo.getAccount())){
             result.setMsg("用户名不存在");
         }else if(!isRightPassword(userInfo)){
             result.setMsg("密码错误");
         }else{
             result.setSuccess(true);
             result.setMsg("登录成功");
-            result.setUser(userMapper.findUser(userInfo.getAccount()));
+            result.setUser(userMapper.findUser(userInfo.getId()));
         }
 
         return result;
@@ -41,23 +41,29 @@ public class AccountServiceImpl implements AccountService {
         ResultInfo result=new ResultInfo();
         result.setSuccess(false);
         result.setUser(null);
-
-
-        if(isExitAccount(userInfo)){
+        System.out.println(userInfo);
+        if(isExitAccount(userInfo.getAccount())){
             result.setMsg("用户名已存在");
         }else{
             userMapper.register(userInfo);
             result.setUser(userInfo);
             result.setSuccess(true);
+            result.setMsg("注册成功！");
         }
 
         return result;
 
     }
 
-    @Override
-    public UserInfo findUser(int id) {
-        return null;
+
+    boolean isExitAccount(String account){
+        List<UserInfo>  userInfoList = findUserList();
+        for(UserInfo user:userInfoList){
+            if(account.equals(user.getAccount())){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -79,8 +85,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean isRightPassword(UserInfo userInfo) {
-        UserInfo user = userMapper.findUser(userInfo.getAccount());
-        if(isExitAccount(userInfo)&&user.getPassword().equals(userInfo.getPassword())){
+        UserInfo user = userMapper.findUser(userInfo.getId());
+        if(isExitUser(userInfo)&&user.getPassword().equals(userInfo.getPassword())){
             return true;
         }
         return false;
@@ -88,9 +94,8 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public boolean isExitAccount(UserInfo userInfo) {
-        UserInfo user = userMapper.findUser(userInfo.getAccount());
-        if(user == null){
+    public boolean isExitUser(UserInfo userInfo) {
+        if(userInfo.getId() == null){
             return  false;
         }
         return true;
