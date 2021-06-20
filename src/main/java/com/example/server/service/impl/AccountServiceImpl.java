@@ -4,6 +4,7 @@ import com.example.server.mapper.UserMapper;
 import com.example.server.model.ResultInfo;
 import com.example.server.model.UserInfo;
 import com.example.server.service.AccountService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private UserMapper userMapper;
+
+
+    public ResultInfo change(UserInfo userInfo){
+        ResultInfo result=new ResultInfo();
+        result.setSuccess(false);
+        result.setUser(null);
+
+        userMapper.updateUserInfo(userInfo);
+
+        result.setMsg("修改成功");
+        result.setUser(userMapper.findUserById(userInfo.getId()));
+        result.setSuccess(true);
+        return result;
+    }
 
 
     public ResultInfo login(UserInfo userInfo){

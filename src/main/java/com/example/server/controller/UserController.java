@@ -22,7 +22,7 @@ public class UserController {
 
     public ResultInfo change(@RequestBody UserInfo user){
 
-        return new ResultInfo();
+        return accountService.change(user);
     }
 
     @PostMapping("/register")
