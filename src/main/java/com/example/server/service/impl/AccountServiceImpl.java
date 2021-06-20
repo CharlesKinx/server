@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
         }else{
             result.setSuccess(true);
             result.setMsg("登录成功");
-            result.setUser(userMapper.findUser(userInfo.getId()));
+            result.setUser(userMapper.findUser(userInfo.getAccount()));
         }
 
         return result;
@@ -41,7 +41,6 @@ public class AccountServiceImpl implements AccountService {
         ResultInfo result=new ResultInfo();
         result.setSuccess(false);
         result.setUser(null);
-        System.out.println(userInfo);
         if(isExitAccount(userInfo.getAccount())){
             result.setMsg("用户名已存在");
         }else{
@@ -85,8 +84,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean isRightPassword(UserInfo userInfo) {
-        UserInfo user = userMapper.findUser(userInfo.getId());
-        if(isExitUser(userInfo)&&user.getPassword().equals(userInfo.getPassword())){
+        UserInfo user = userMapper.findUser(userInfo.getAccount());
+        if(user.getPassword().equals(userInfo.getPassword())){
             return true;
         }
         return false;

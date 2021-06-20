@@ -17,20 +17,17 @@ public class UserController {
     @Autowired
     private AccountServiceImpl accountService;
 
-    @PostMapping("/")
-    public String stringGet(){
-        return "已收到！";
-    }
 
-    @GetMapping("/get")
+    @PostMapping("/change")
 
-    public String getMethod(){
-        return "hello";
+    public ResultInfo change(@RequestBody UserInfo user){
+
+        return new ResultInfo();
     }
 
     @PostMapping("/register")
     public ResultInfo register(@RequestBody UserInfo user){
-        System.out.println(user);
+
         return accountService.register(user);
     }
 
